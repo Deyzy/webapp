@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+
+  app-web:
+    build: 
+      context: ./hello-world
+      dockerfile: dockerfile
+    image: deyzy/app-web:2.0
+    container_name: venuss
+    networks:
+      - compose-bridge
+    ports:
+      - 3000:3000
+    expose:
+      - "3000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:latest
+    container_name: saturnn
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=prod
+    networks:
+      - compose-bridge
+    ports:
+      - 3306:3306
+    expose:
+      - "3306"
+    healthcheck:
+          test: "mysql -u root -p123456 -h 127.0.0.1 --execute \"SHOW DATABASES\" || exit 1"
+          interval: 2s
+          timeout: 20s
+          retries: 10
+    volumes:
+      - /home/deise/volume-docker/mysql-data:/var/lib/mysql
+  
+networks:
+  compose-bridge:
+    driver: bridge
+

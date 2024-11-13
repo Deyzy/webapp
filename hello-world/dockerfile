@@ -1,0 +1,11 @@
+FROM node:18
+WORKDIR /app-web
+COPY package*.json ./
+RUN npm install && npm update
+COPY . . 
+
+CMD ["npm", "run", "dev"]
+
+EXPOSE 3000 
+
+
