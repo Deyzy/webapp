@@ -1,14 +1,20 @@
 const express = require('express');
 const path = require('path');
 const mysql = require('mysql2');
+const ejs = require('ejs');
+const {login} = require('./rotas/login')
 
 const app = express();
+console.log(__dirname)
+
+app.set('view engine', 'ejs'); //renderizar os dados dinamicamente
+app.set('views', path.join(__dirname, 'views')); //definir as pastas que estão os templates
 
 //para processar dados do formulário
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.static('public'));
 
-// Configuração da conexão com o MySQL
+// Configuração da conexão com o MySQL criar function
 const connection = mysql.createConnection({
     host: 'saturnn',  // rede local ou nome do container 
     user: 'root',         // usuário do MySQL
@@ -31,24 +37,45 @@ connection.connect((err) => {
 
 
  // página de login
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+app.get('/', login ); 
+
+app.get('/info', (req, res) => { //criar function
+    const info = {
+        username: 'deise', 
+        fullname: 'deise silva'
+    }
+
+    res.render('info', {info} );
 }); 
 
-//login
-app.post('/login', (req, res) => {
+//login 
+app.post('/login', (req, res) => { //criar function
     const { username, password } = req.body;
+    const sql = 'SELECT * FROM users WHERE username = ? AND password = ? LIMIT 1';
+
+    const info = [
+   'deise', 'deise silva'
+    ]
 
     // Verificar o usuário no banco de dados
     connection.query(
-        'SELECT * FROM users WHERE username = ? AND password = ?',
+        sql, 
         [username, password],
         (err, results) => {
             if (err) {
                 return res.status(500).send('Erro na consulta ao banco de dados.');
-            }
+            } 
             if (results.length > 0) {
-                res.send('Login bem-sucedido!');
+                const info = {
+                    username: results[0].username, 
+                    fullname: results[0].fullname,
+                    cpf: results[0].cpf,
+                    phonenumber: results[0].phonenumber,
+                    address: results[0].address,
+                    dateofbirth: results[0].dateofbirth,
+                }
+                res.render('info', {info})
+                //res.redirect('/info');
             } else {
                 res.send('Usuário ou senha incorretos.');
             } 
