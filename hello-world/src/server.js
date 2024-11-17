@@ -40,10 +40,10 @@ connection.connect((err) => {
 app.get('/', login ); 
 
 app.get('/info', (req, res) => { //criar function
-    const info = {
+   /* const info = {
         username: 'deise', 
         fullname: 'deise silva'
-    }
+    }*/
 
     res.render('info', {info} );
 }); 
@@ -53,9 +53,9 @@ app.post('/login', (req, res) => { //criar function
     const { username, password } = req.body;
     const sql = 'SELECT * FROM users WHERE username = ? AND password = ? LIMIT 1';
 
-    const info = [
+   /* const info = [
    'deise', 'deise silva'
-    ]
+    ] */
 
     // Verificar o usuário no banco de dados
     connection.query(
