@@ -4,6 +4,8 @@ const mysql = require('mysql2');
 const ejs = require('ejs');
 const {login} = require('./rotas/login')
 
+//criar uma pag admin, com uma palavra secreta que só o admin tem acesso
+
 const app = express(); 
 console.log(__dirname)
 
@@ -16,7 +18,7 @@ app.use(express.static('src'));
 
 // Configuração da conexão com o MySQL criar function
 const connection = mysql.createConnection({
-    host: 'saturnn',  // rede local ou nome do container 
+    host: 'localhost',  // rede local ou nome do container 
     user: 'root',         // usuário do MySQL
     password: '123456',   // senha do usuário
     database: 'prod'  // banco de dados
@@ -48,10 +50,6 @@ app.post('/login', (req, res) => { //criar function
     const { username, password } = req.body;
     const sql = 'SELECT * FROM users WHERE username = ? AND password = ? LIMIT 1';
 
-   /* const info = [
-   'deise', 'deise silva'
-    ] */
-
     // Verificar o usuário no banco de dados
     connection.query(
         sql, 
@@ -77,6 +75,37 @@ app.post('/login', (req, res) => { //criar function
         }
     );
 }); 
+
+
+// Página de administração
+app.get('/admin', (req, res) => {
+    res.render('admin'); // Exibe o formulário para digitar o nome de usuário e a senha
+});
+
+app.post('/admin', (req, res) => {
+    const { username, password } = req.body;
+    
+    // Verificar se o usuário é um administrador
+    const sql = 'SELECT * FROM users WHERE username = ? AND password = ? AND is_admin = 1 LIMIT 1';
+
+    connection.query(
+        sql,
+        [username, password],
+        (err, results) => {
+            if (err) {
+                return res.status(500).send('Erro na consulta ao banco de dados.');
+            }
+            if (results.length > 0) {
+                // Usuário encontrado e é administrador
+                res.render('adm'); 
+            } else {
+                // Usuário não encontrado ou não é administrador
+                res.send('Acesso negado!');
+            }
+        }
+    );
+});
+
 
 // Inicia o servidor
 app.listen(3000, () => {
