@@ -3,6 +3,7 @@ const path = require('path');
 const mysql = require('mysql2');
 const ejs = require('ejs');
 const {login} = require('./rotas/login')
+const createConnection = require('./rotas/db');
 
 //criar uma pag admin, com uma palavra secreta que só o admin tem acesso
 
@@ -16,27 +17,8 @@ app.set('views', path.join(__dirname, 'views')); //definir as pastas que estão 
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.static('src'));
 
-// Configuração da conexão com o MySQL criar function
-const connection = mysql.createConnection({
-    host: 'localhost',  // rede local ou nome do container 
-    user: 'root',         // usuário do MySQL
-    password: '123456',   // senha do usuário
-    database: 'prod'  // banco de dados
-    
-});
-
-//console.log(connection);
-
-// Conectar ao MySQL
-connection.connect((err) => {
-    if (err) {;
-        console.error('Erro ao conectar ao banco de dados:', err.stack);
-        return;
-    }
-    console.log('Conectado ao banco de dados MySQL como ID ' + connection.threadId);
-}); 
-
-
+//conexão com o MySQL
+const connection = createConnection();
 
  // página de login
 app.get('/', login ); 
