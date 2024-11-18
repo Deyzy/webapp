@@ -6,20 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>user info</title>
     <style>
-    body{
-        background-color: #88b6db;
-    } 
-    main{
-        margin: 43px 0px 0px 347px;
-        background-color: white;
-    }
+        body {
+            background-color: #88b6db;
+        }
+
+        main {
+            margin: 43px 839px 0px 347px;
+            background-color: white;
+            padding: 3px 0px 19px 60px;
+            border-radius: 14px 14px 14px 14px;
+            box-shadow: 3px 3px 41px -6px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        h2{
+            color: #121287;
+        }
     </style>
 </head>
 
 <body>
     <main>
-        <h1>Welcome! <%= info.username %>
-        </h1>
+        <h2>Welcome! <%= info.username %>
+        </h2>
         <p>Nome Completo: <%= info.fullname %>
         </p>
         <p>CPF: <%= info.cpf %>

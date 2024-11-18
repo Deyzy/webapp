@@ -4,7 +4,7 @@ const mysql = require('mysql2');
 const ejs = require('ejs');
 const {login} = require('./rotas/login')
 
-const app = express();
+const app = express(); 
 console.log(__dirname)
 
 app.set('view engine', 'ejs'); //renderizar os dados dinamicamente
@@ -12,7 +12,7 @@ app.set('views', path.join(__dirname, 'views')); //definir as pastas que estão 
 
 //para processar dados do formulário
 app.use(express.urlencoded({ extended: true })); 
-app.use(express.static('public'));
+app.use(express.static('src'));
 
 // Configuração da conexão com o MySQL criar function
 const connection = mysql.createConnection({
@@ -40,11 +40,6 @@ connection.connect((err) => {
 app.get('/', login ); 
 
 app.get('/info', (req, res) => { //criar function
-   /* const info = {
-        username: 'deise', 
-        fullname: 'deise silva'
-    }*/
-
     res.render('info', {info} );
 }); 
 
