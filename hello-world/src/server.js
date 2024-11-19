@@ -4,7 +4,8 @@ const mysql = require('mysql2');
 const ejs = require('ejs');
 const {login} = require('./rotas/login')
 const createConnection = require('./rotas/db');
-
+const {info} = require('./rotas/info')
+ 
 //criar uma pag admin, com uma palavra secreta que só o admin tem acesso
 
 const app = express(); 
@@ -23,9 +24,8 @@ const connection = createConnection();
  // página de login
 app.get('/', login ); 
 
-app.get('/info', (req, res) => { //criar function
-    res.render('info', {info} );
-}); 
+app.get('/', info);
+
 
 //login 
 app.post('/login', (req, res) => { //criar function
@@ -58,13 +58,13 @@ app.post('/login', (req, res) => { //criar function
     );
 }); 
 
-
-// Página de administração
-app.get('/admin', (req, res) => {
-    res.render('admin'); // Exibe o formulário para digitar o nome de usuário e a senha
+/*
+// Página de adm
+app.get('/adm', (req, res) => {
+    res.render('adm'); 
 });
 
-app.post('/admin', (req, res) => {
+app.post('/adm', (req, res) => {
     const { username, password } = req.body;
     
     // Verificar se o usuário é um administrador
@@ -78,15 +78,16 @@ app.post('/admin', (req, res) => {
                 return res.status(500).send('Erro na consulta ao banco de dados.');
             }
             if (results.length > 0) {
-                // Usuário encontrado e é administrador
+             
                 res.render('adm'); 
             } else {
-                // Usuário não encontrado ou não é administrador
+                
                 res.send('Acesso negado!');
             }
         }
     );
 });
+*/
 
 
 // Inicia o servidor
