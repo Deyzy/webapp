@@ -5,6 +5,7 @@ const ejs = require('ejs');
 const {login} = require('./rotas/login')
 const createConnection = require('./rotas/db');
 const {info} = require('./rotas/info')
+const {loginUser} = require('./rotas/loginUser');
  
 //criar uma pag admin, com uma palavra secreta que só o admin tem acesso
 
@@ -21,73 +22,12 @@ app.use(express.static('src'));
 //conexão com o MySQL
 const connection = createConnection();
 
- // página de login
-app.get('/', login ); 
+ 
+app.get('/', login ); // página de login
 
-app.get('/', info);
+app.get('/', info); //pag de informações dos users que está no banco
 
-
-//login 
-app.post('/login', (req, res) => { //criar function
-    const { username, password } = req.body;
-    const sql = 'SELECT * FROM users WHERE username = ? AND password = ? LIMIT 1';
-
-    // Verificar o usuário no banco de dados
-    connection.query(
-        sql, 
-        [username, password],
-        (err, results) => {
-            if (err) {
-                return res.status(500).send('Erro na consulta ao banco de dados.');
-            } 
-            if (results.length > 0) {
-                const info = {
-                    username: results[0].username, 
-                    fullname: results[0].fullname,
-                    cpf: results[0].cpf,
-                    phonenumber: results[0].phonenumber,
-                    address: results[0].address,
-                    dateofbirth: results[0].dateofbirth,
-                }
-                res.render('info', {info})
-                //res.redirect('/info');
-            } else {
-                res.send('Usuário ou senha incorretos.');
-            } 
-        }
-    );
-}); 
-
-/*
-// Página de adm
-app.get('/adm', (req, res) => {
-    res.render('adm'); 
-});
-
-app.post('/adm', (req, res) => {
-    const { username, password } = req.body;
-    
-    // Verificar se o usuário é um administrador
-    const sql = 'SELECT * FROM users WHERE username = ? AND password = ? AND is_admin = 1 LIMIT 1';
-
-    connection.query(
-        sql,
-        [username, password],
-        (err, results) => {
-            if (err) {
-                return res.status(500).send('Erro na consulta ao banco de dados.');
-            }
-            if (results.length > 0) {
-             
-                res.render('adm'); 
-            } else {
-                
-                res.send('Acesso negado!');
-            }
-        }
-    );
-});
-*/
+app.post('/login', loginUser); //função para processar o login
 
 
 // Inicia o servidor

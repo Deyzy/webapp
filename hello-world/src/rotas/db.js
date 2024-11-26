@@ -1,4 +1,4 @@
-const path = require('path');
+// const path = require('path');
 const mysql = require('mysql2');
 
 // Função para criar e retornar a conexão com o MySQL
