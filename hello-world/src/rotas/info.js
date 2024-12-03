@@ -1,6 +1,6 @@
 const path = require('path');
 
-function info (req, res) { //criar function
+function info (req, res) {
     res.render('info', {info} );
 }; 
 

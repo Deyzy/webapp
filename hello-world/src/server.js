@@ -1,13 +1,13 @@
 const express = require('express');
 const path = require('path');
-const mysql = require('mysql2');
-const ejs = require('ejs');
+// const mysql = require('mysql2');
+// const ejs = require('ejs');
 const {login} = require('./rotas/login')
 const createConnection = require('./rotas/db');
 const {info} = require('./rotas/info')
 const {loginUser} = require('./rotas/loginUser');
  
-//criar uma pag admin, com uma palavra secreta que só o admin tem acesso
+//CRIAR UMA PAG ADMIN, COM UMA PALAVRA SECRETA QUE SÓ O ADM TEM ACESSO
 
 const app = express(); 
 console.log(__dirname)
@@ -19,15 +19,13 @@ app.set('views', path.join(__dirname, 'views')); //definir as pastas que estão 
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.static('src'));
 
-//conexão com o MySQL
-const connection = createConnection();
+const connection = createConnection(); //função para conexão com o MySQL
 
- 
-app.get('/', login ); // página de login
+app.get('/', login ); // para chamar a página de login
 
-app.get('/', info); //pag de informações dos users que está no banco
+app.get('/', info); // para chamar a pag de informações dos users que está no banco.
 
-app.post('/login', loginUser); //função para processar o login
+app.post('/login', loginUser); // para processar o login
 
 
 // Inicia o servidor

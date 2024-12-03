@@ -17,7 +17,6 @@ const loginUser = (req, res) => {
             connection.end(); // Fechar a conexão após a consulta
 
             if (err) {
-                
                 return res.status(500).send('Erro na consulta ao banco de dados.');
             } 
 
