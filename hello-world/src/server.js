@@ -6,9 +6,12 @@ const {login} = require('./rotas/login')
 const createConnection = require('./rotas/db');
 const {info} = require('./rotas/info')
 const {loginUser} = require('./rotas/loginUser');
+const { createUser, getUsers, getUser, updateUser, deleteUser } = require('./rotas/app');
+const { checkAdmin } = require('./rotas/middleware');
+
  
 //CRIAR UMA PAG ADMIN, COM UMA PALAVRA SECRETA QUE SÓ O ADM TEM ACESSO
-
+ 
 const app = express(); 
 console.log(__dirname)
 
@@ -26,6 +29,7 @@ app.get('/', login ); // para chamar a página de login
 app.get('/', info); // para chamar a pag de informações dos users que está no banco.
 
 app.post('/login', loginUser); // para processar o login
+
 
 
 // Inicia o servidor
