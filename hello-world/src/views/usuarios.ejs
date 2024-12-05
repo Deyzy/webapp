@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuários</title>
+</head>
+<body>
+    <h1>Lista de Usuários</h1>
+    
+   
+    <a href="/usuarios/adicionar">
+        <button>Adicionar Novo Usuário</button>
+    </a>
+    
+    <a href="/usuarios/<%= usuario.id %>">
+        <button>Ver</button>
+    </a>
+
+    <a href="/usuarios/editar/<%= usuario.id %>">
+        <button>Editar</button>
+    </a>
+
+    <form action="/usuarios/deletar/<%= usuario.id %>" method="POST" style="display:inline;">
+        <button type="submit" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</button>
+    </form>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Nome Completo</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Endereço</th>
+                <th>Data de Nascimento</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% usuarios.forEach(function(usuario) { %>
+                <tr>
+                    <td><%= usuario.id %></td>
+                    <td><%= usuario.username %></td>
+                    <td><%= usuario.fullname %></td>
+                    <td><%= usuario.cpf %></td>
+                    <td><%= usuario.phonenumber %></td>
+                    <td><%= usuario.address %></td>
+                    <td><%= usuario.dateofbirth %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>
