@@ -22,6 +22,7 @@ const loginUser = (req, res) => {
 
             if (results.length > 0) {
                 const info = {
+                    id: results[0].id,
                     username: results[0].username, 
                     fullname: results[0].fullname,
                     cpf: results[0].cpf,

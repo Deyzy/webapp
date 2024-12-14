@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuários</title>
+    <title>Painel de Administração</title>
 </head>
 <body>
-    <h1>Lista de Usuários</h1>
-    
-   
-    <a href="/usuarios/adicionar">
-        <button>Adicionar Novo Usuário</button>
-    </a>
-    
-    <a href="/usuarios/<%= usuario.id %>">
-        <button>Ver</button>
-    </a>
+    <h1>usuarios</h1>
 
-    <a href="/usuarios/editar/<%= usuario.id %>">
-        <button>Editar</button>
-    </a>
+    <main>
+        <h2>Welcome! <%= info.username %>
+        </h2>
+        <p>id: <%= info.id %></p>
+        <p>Nome Completo: <%= info.fullname %>
+        </p>
+        <p>CPF: <%= info.cpf %>
+        </p>
+        <p>Numero de Telefone: <%= info.phonenumber %>
+        </p>
+        <p>Endereço: <%= info.address %>
+        </p>
+        <p>Data de Nascimento: <%= info.dateofbirth %>
+        </p>
+    </main>
 
-    <form action="/usuarios/deletar/<%= usuario.id %>" method="POST" style="display:inline;">
-        <button type="submit" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</button>
-    </form>
 
     <table border="1">
         <thead>
@@ -35,11 +35,10 @@
                 <th>Telefone</th>
                 <th>Endereço</th>
                 <th>Data de Nascimento</th>
-                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            <% usuarios.forEach(function(usuario) { %>
+           <% info.users.forEach((usuario) => { %> 
                 <tr>
                     <td><%= usuario.id %></td>
                     <td><%= usuario.username %></td>
@@ -48,9 +47,17 @@
                     <td><%= usuario.phonenumber %></td>
                     <td><%= usuario.address %></td>
                     <td><%= usuario.dateofbirth %></td>
+                    <td>
+                        <button onclick="alert(`<%= usuario.id %>`)"> editar</button>
+                        <button onclick="alert(`<%= usuario.id %>`)"> excluir</button>
+        
+                    </td>
                 </tr>
-            <% }); %>
+             <% }); %> 
         </tbody>
     </table>
+    
+ 
+
 </body>
 </html>

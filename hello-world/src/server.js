@@ -6,9 +6,7 @@ const {login} = require('./rotas/login')
 const createConnection = require('./rotas/db');
 const {info} = require('./rotas/info')
 const {loginUser} = require('./rotas/loginUser');
-// const { createUser, getUsers, getUser, updateUser, deleteUser } = require('./rotas/app');
-
-
+const { getUsers } = require('./rotas/crud');
  
 //CRIAR UMA PAG ADMIN, COM UMA PALAVRA SECRETA QUE SÓ O ADM TEM ACESSO
  
@@ -28,91 +26,55 @@ app.get('/', login ); // para chamar a página de login
 
 // Rota para informações dos usuários (listar usuários)
 app.get('/usuarios', (req, res) => {
-    connection.query('SELECT * FROM usuarios', (err, result) => {
+    connection.query('SELECT * FROM users', (err, result) => {
         if (err) {
             console.error('Erro ao buscar usuários:', err);
             res.sendStatus(500);
             return;
         }
-        res.render('users', { usuarios: result }); // Renderiza a lista de usuários
+        console.log(result);
+        res.render('usuarios', { result }); 
     });
 });
 
-// Rota para exibir página de adicionar usuário
-app.get('/usuarios/adicionar', (req, res) => {
-    res.render('adicionarUsuario'); // Crie um formulário de adição de usuário
-});
 
-// Rota para processar a adição de um usuário
-app.post('/usuarios/adicionar', (req, res) => {
-    const { username, fullname, cpf, phonenumber, address, dateofbirth } = req.body;
-    const query = 'INSERT INTO usuarios (username, fullname, cpf, phonenumber, address, dateofbirth) VALUES (?, ?, ?, ?, ?, ?)';
-    connection.query(query, [username, fullname, cpf, phonenumber, address, dateofbirth], (err, result) => {
-        if (err) {
-            console.error('Erro ao adicionar usuário:', err);
-            res.sendStatus(500);
-            return;
+app.get('/info', info); 
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    // Cria a conexão com o banco de dados chamando a função
+    const connection = createConnection();
+
+    const sql = 'SELECT * FROM users WHERE username = ? AND password = ? LIMIT 1';
+
+    // Verificar o usuário no banco de dados
+    connection.query(
+        sql, 
+        [username, password],
+        (err, results) => {
+            connection.end(); // Fechar a conexão após a consulta
+
+            if (err) {
+                return res.status(500).send('Erro na consulta ao banco de dados.');
+            } 
+
+            if (results.length > 0) {
+                if (results[0].adm === 1) {
+                    const users = getUsers()
+                    const info = {
+                        users, results
+                    }
+                    console.log(info)
+                   // return res.render('usuarios', {info});
+                } else {
+                    return res.render('info', { info:results[0]});
+                }
+            } else {
+                return res.send('Usuário ou senha incorretos.');
+            }
         }
-        res.redirect('/usuarios'); // Redireciona para a lista de usuários
-    });
-});
-
-// Rota para editar um usuário (exibe o formulário de edição)
-app.get('/usuarios/editar/:id', (req, res) => {
-    const usuarioId = req.params.id;
-    connection.query('SELECT * FROM usuarios WHERE id = ?', [usuarioId], (err, result) => {
-        if (err) {
-            console.error('Erro ao buscar usuário para edição:', err);
-            res.sendStatus(500);
-            return;
-        }
-        res.render('editarUsuario', { usuario: result[0] }); // Exibe o formulário com os dados do usuário
-    });
-});
-
-// Rota para processar a edição de um usuário
-app.post('/usuarios/editar/:id', (req, res) => {
-    const { username, fullname, cpf, phonenumber, address, dateofbirth } = req.body;
-    const usuarioId = req.params.id;
-    const query = 'UPDATE usuarios SET username = ?, fullname = ?, cpf = ?, phonenumber = ?, address = ?, dateofbirth = ? WHERE id = ?';
-    connection.query(query, [username, fullname, cpf, phonenumber, address, dateofbirth, usuarioId], (err, result) => {
-        if (err) {
-            console.error('Erro ao editar usuário:', err);
-            res.sendStatus(500);
-            return;
-        }
-        res.redirect('/usuarios'); // Redireciona para a lista de usuários
-    });
-});
-
-// Rota para excluir um usuário
-app.post('/usuarios/deletar/:id', (req, res) => {
-    const usuarioId = req.params.id;
-    connection.query('DELETE FROM usuarios WHERE id = ?', [usuarioId], (err, result) => {
-        if (err) {
-            console.error('Erro ao excluir usuário:', err);
-            res.sendStatus(500);
-            return;
-        }
-        res.redirect('/usuarios'); // Redireciona para a lista de usuários
-    });
-});
-
-// Rota para detalhes de um usuário
-app.get('/usuarios/:id', (req, res) => {
-    const usuarioId = req.params.id;
-    connection.query('SELECT * FROM usuarios WHERE id = ?', [usuarioId], (err, result) => {
-        if (err) {
-            console.error('Erro ao buscar detalhes do usuário:', err);
-            res.sendStatus(500);
-            return;
-        }
-        res.render('detalhesUsuario', { usuario: result[0] }); // Exibe os detalhes do usuário
-    });
-});
-
-app.get('/', info); 
-app.post('/login', loginUser); 
+    );
+}); 
 
 
 // Inicia o servidor
