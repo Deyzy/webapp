@@ -1,7 +1,7 @@
  const createConnection = require('./db');
 
  // Criar um novo usuário
- const createUser = (req, res) => {
+ function createUser() {
      const { username, password, fullname, cpf, phonenumber, address, dateofbirth } = req.body;
      const connection = createConnection();
 
@@ -30,7 +30,7 @@
  };
 
  // Mostrar um usuário específico
- const getUser = (req, res) => {
+ function getUser() {
      const { id } = req.params;
      const connection = createConnection();
 
@@ -49,7 +49,7 @@
  };
 
   // Atualizar um usuário
- const updateUser = (req, res) => {
+ function updateUser (){
      const { id } = req.params;
      const { username, password, fullname, cpf, phonenumber, address, dateofbirth } = req.body;
      const connection = createConnection();
@@ -65,7 +65,7 @@
  };
 
  // Deletar um usuário
- const deleteUser = (req, res) => {
+ function deleteUser() {
      const { id } = req.params;
      const connection = createConnection();
 
