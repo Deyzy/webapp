@@ -1,0 +1,11 @@
+função para reordernar o ID 
+
+function reordenarIDs(connection, res) {
+    connection.query('SET @count = 0; UPDATE users SET users.id = @count:= @count + 1; ALTER TABLE users AUTO_INCREMENT = 1;', (err, results) => {
+        if (err) {
+            console.error('Erro ao reordenar IDs:', err);
+            return res.status(500).send('Erro ao reordenar IDs');
+        }
+        res.redirect('/admin');
+    });
+}
