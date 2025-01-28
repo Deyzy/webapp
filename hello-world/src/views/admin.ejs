@@ -25,10 +25,24 @@
         .actions {
             margin-top: 20px;
         }
+        .btn {
+            padding: 5px 10px;
+            margin: 2px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            border-radius: 3px;
+        }
+        .btn-edit {
+            background-color: #4CAF50;
+        }
+        .btn-delete {
+            background-color: #f44336;
+        }
     </style>
 </head>
 <body>
-    <!-- Exibe o nome do administrador logado -->
+    
     <h1>Painel de Administração</h1>
 
     <h2>Gerenciar Usuários</h2>
@@ -38,20 +52,35 @@
                 <th>ID</th>
                 <th>Username</th>
                 <th>Nome Completo</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Endereço</th>
+                <th>Data de Nascimento</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Lista todos os usuários -->
+            
             <% usuarios.forEach(user => { %>
                 <tr>
                     <td><%= user.id %></td>
                     <td><%= user.username %></td>
                     <td><%= user.fullname %></td>
+                    <td><%= user.cpf %></td>
+                    <td><%= user.phonenumber %></td>
+                    <td><%= user.address %></td>
+                    <td><%= user.dateofbirth %></td>
                     <td>
-                        <a href="/usuarios/editar/<%= user.id %>">Editar</a>
-                        <a href="/usuarios/excluir/<%= user.id %>">Excluir</a>
+                        
+                        <form action="/usuarios/editar/<%= user.id %>" method="GET" style="display: inline;">
+                            <button type="submit" class="btn btn-edit">Editar</button>
+                        </form>
+                        
+                        <form action="/usuarios/excluir/<%= user.id %>" method="POST" style="display: inline;">
+                            <button type="submit" class="btn btn-delete">Excluir</button>
+                        </form>
                     </td>
+                    
                 </tr>
             <% }); %>
         </tbody>

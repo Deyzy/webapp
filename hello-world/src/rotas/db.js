@@ -1,13 +1,13 @@
-// const path = require('path');
+
 const mysql = require('mysql2');
 
 // Função para criar e retornar a conexão com o MySQL
 function createConnection() {
     const connection = mysql.createConnection({
-        host: 'localhost',  // localhost ou nome do container 
-        user: 'root',       // Usuário MySQL
-        password: '123456', // Senha do MySQL
-        database: 'prod'    // Nome do banco de dados
+        host: 'localhost',  
+        user: 'root',      
+        password: '123456',
+        database: 'prod'    
     });
 
     // Verifica se a conexão foi bem-sucedida

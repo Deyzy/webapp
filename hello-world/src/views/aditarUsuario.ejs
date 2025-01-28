@@ -6,23 +6,23 @@
     <title>Editar Usuário</title>
 </head>
 <body>
-    <h1>Editar Usuário: <%= usuarios.username %></h1>
+    <h1>Editar Usuário</h1>
 
-    <form action="/usuarios/editar/<%= usuarios.id %>" method="POST">
+    <form action="/usuarios/editar/<%= usuario.id %>" method="POST">
         <label for="fullname">Nome Completo:</label>
-        <input type="text" name="fullname" value="<%= usuarios.fullname %>" required>
+        <input type="text" name="fullname" value="<%= usuario.fullname %>" required>
         <br>
         <label for="cpf">CPF:</label>
-        <input type="text" name="cpf" value="<%= usuarios.cpf %>" required>
+        <input type="text" name="cpf" value="<%= usuario.cpf %>" required>
         <br>
         <label for="phonenumber">Telefone:</label>
-        <input type="text" name="phonenumber" value="<%= usuarios.phonenumber %>" required>
+        <input type="text" name="phonenumber" value="<%= usuario.phonenumber %>" required>
         <br>
         <label for="address">Endereço:</label>
-        <input type="text" name="address" value="<%= usuarios.address %>" required>
+        <input type="text" name="address" value="<%= usuario.address %>" required>
         <br>
         <label for="dateofbirth">Data de Nascimento:</label>
-        <input type="date" name="dateofbirth" value="<%= usuarios.dateofbirth %>" required>
+        <input type="date" name="dateofbirth" value="<%= usuario.dateofbirth %>" required>
         <br>
         <button type="submit">Salvar Alterações</button>
     </form>
