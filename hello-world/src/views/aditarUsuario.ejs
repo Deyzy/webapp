@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuário</title>
+</head>
+<body>
+    <h1>Editar Usuário: <%= usuarios.username %></h1>
+
+    <form action="/usuarios/editar/<%= usuarios.id %>" method="POST">
+        <label for="fullname">Nome Completo:</label>
+        <input type="text" name="fullname" value="<%= usuarios.fullname %>" required>
+        <br>
+        <label for="cpf">CPF:</label>
+        <input type="text" name="cpf" value="<%= usuarios.cpf %>" required>
+        <br>
+        <label for="phonenumber">Telefone:</label>
+        <input type="text" name="phonenumber" value="<%= usuarios.phonenumber %>" required>
+        <br>
+        <label for="address">Endereço:</label>
+        <input type="text" name="address" value="<%= usuarios.address %>" required>
+        <br>
+        <label for="dateofbirth">Data de Nascimento:</label>
+        <input type="date" name="dateofbirth" value="<%= usuarios.dateofbirth %>" required>
+        <br>
+        <button type="submit">Salvar Alterações</button>
+    </form>
+</body>
+</html>
