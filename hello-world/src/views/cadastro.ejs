@@ -18,7 +18,7 @@
 
         h1 {
             color: #333;
-            text-align: justify;
+            text-align: center;
         }
 
         form {
@@ -36,7 +36,9 @@
         }
 
         input[type="text"],
-        input[type="date"] {
+        input[type="password"],
+        input[type="date"],
+        input[type="email"] {
             width: 100%;
             padding: 8px;
             margin-bottom: 16px;
@@ -61,31 +63,40 @@
         }
     </style>
 
-    <title>Editar Usuário</title>
+    <title>Cadastro de Usuário</title>
 </head>
 
 <body>
 
-    <h1>Editar Usuário</h1>
+    <h1>Cadastro de Usuário</h1>
 
-    <form action="/usuarios/editar/<%= usuario.id %>" method="POST">
+    <form action="/cadastro" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" required>
+        <br>
         <label for="fullname">Nome Completo:</label>
-        <input type="text" name="fullname" value="<%= usuario.fullname %>" required>
+        <input type="text" name="fullname" required>
         <br>
         <label for="cpf">CPF:</label>
-        <input type="text" name="cpf" value="<%= usuario.cpf %>" required>
+        <input type="text" name="cpf" required>
         <br>
         <label for="phonenumber">Telefone:</label>
-        <input type="text" name="phonenumber" value="<%= usuario.phonenumber %>" required>
+        <input type="text" name="phonenumber" required>
         <br>
         <label for="address">Endereço:</label>
-        <input type="text" name="address" value="<%= usuario.address %>" required>
+        <input type="text" name="address" required>
         <br>
         <label for="dateofbirth">Data de Nascimento:</label>
-        <input type="date" name="dateofbirth" value="<%= usuario.dateofbirth %>" required>
+        <input type="date" name="dateofbirth" required>
         <br>
-        <button type="submit">Salvar Alterações</button>
+        <button type="submit">Cadastrar</button>
     </form>
+
 </body>
 
 </html>
+
+<!-- username, password, fullname, cpf, phonenumber, address, dateofbirth -->

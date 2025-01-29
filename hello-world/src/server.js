@@ -27,7 +27,6 @@ app.get('/info', info);
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
-    // Cria a conexão com o banco de dados chamando a função
     const connection = createConnection();
 
     const sql = 'SELECT * FROM users WHERE username = ? AND password = ? LIMIT 1';
@@ -57,7 +56,6 @@ app.post('/login', (req, res) => {
                          res.render('admin', { user: results[0], usuarios: users });
                     });
                 } else {
-                  
                     connection.end(); 
                     return res.render('info', { info: results[0] });
                 }
@@ -80,6 +78,46 @@ app.get('/admin', (req, res) => {
         res.render('admin', { usuarios: users });
     });
 });
+
+// Exibir a página de cadastro
+app.get('/cadastro', (req, res) => {
+    res.render('cadastro');
+});
+
+// Processar o formulário de cadastro
+app.post('/cadastro', (req, res) => {
+    const { username, password, fullname, cpf, phonenumber, address, dateofbirth } = req.body;
+
+    const connection = createConnection();
+
+    // Verificar se o usuário já existe
+    const sqlCheck = 'SELECT * FROM users WHERE username = ? LIMIT 1';
+    connection.query(sqlCheck, [username], (err, results) => {
+        if (err) {
+            connection.end();
+            return res.status(500).send('Erro ao verificar o usuário.');
+        }
+
+        if (results.length > 0) {
+            connection.end();
+            return res.send('Username já existe. Tente outro.');
+        }
+
+        // Inserir o novo usuário no banco de dados
+        const sqlInsert = 'INSERT INTO users (username, password, fullname, cpf, phonenumber, address, dateofbirth) VALUES (?, ?, ?, ?, ?, ?)';
+        connection.query(sqlInsert, [username, password, fullname, cpf, phonenumber, address, dateofbirth], (err, results) => {
+            if (err) {
+                connection.end();
+                return res.status(500).send('Erro ao cadastrar o usuário.');
+            }
+
+            connection.end();
+            res.send('Cadastro realizado com sucesso!');
+        });
+    });
+});
+
+
 
 //excluir um usuário
 app.post('/usuarios/excluir/:id', (req, res) => {
@@ -126,6 +164,8 @@ app.post('/usuarios/editar/:id', (req, res) => {
         res.redirect('/admin');  
     });
 });
+
+
 
 app.listen(3000, () => {
     console.log('Servidor rodando na porta 3000');
