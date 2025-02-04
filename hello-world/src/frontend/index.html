@@ -74,8 +74,6 @@
             cursor: pointer;
             margin: 13px -100px 27px -1px;
         }
-
-
     </style>
 </head>
 
@@ -94,12 +92,17 @@
                         <label for="password">password:</label>
                         <input type="password" id="password" name="password" required>
                     </div>
-                    <button type="submit" class="btn">submit</button>
+                    <button type="submit" class="btn">Login</button>
 
                 </form>
+                <div style="display: flex;
+                flex-direction: column;
+                width: 100px;
+                margin: 1px 1px 0px 203px;">
+                    <button class="btn2" onclick="window.location.href='/cadastro'">Cadastro</button>
 
-                <button class="btn2" onclick="window.location.href='/cadastro'">Cadastro</button>
-
+                </div>
+                <!-- <button class="btn2" onclick="window.location.href='/cadastro'">Cadastro</button> -->
             </div>
         </div>
 
