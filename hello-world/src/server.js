@@ -87,15 +87,12 @@ app.get('/cadastro', (req, res) => {
 app.post('/cadastro', (req, res) => {
     const { username, password, fullname, cpf, phonenumber, address, dateofbirth } = req.body;
 
-    // console.log('Dados recebidos do formulário:', req.body); 
-
     const connection = createConnection();
 
     // Verificar se o usuário já existe
     const sqlCheck = 'SELECT * FROM users WHERE username = ? LIMIT 1';
     connection.query(sqlCheck, [username], (err, results) => {
         if (err) {
-            // console.error(err); // Log de erro
             connection.end();
             return res.status(500).send('Erro ao verificar o usuário.');
         }
@@ -103,7 +100,6 @@ app.post('/cadastro', (req, res) => {
         // console.log(results); 
 
         if (results.length > 0) {
-            // console.log(username); // Log de usuário existente
             connection.end();
             return res.send('usuario já existe. Tente outro.');
         }
@@ -112,12 +108,9 @@ app.post('/cadastro', (req, res) => {
         const sqlInsert = 'INSERT INTO users (username, password, fullname, cpf, phonenumber, address, dateofbirth) VALUES (?, ?, ?, ?, ?, ?, ?)';
         connection.query(sqlInsert, [username, password, fullname, cpf, phonenumber, address, dateofbirth], (err, results) => {
             if (err) {
-                // console.error('Erro ao cadastrar usuário:', err); // Log de erro
                 connection.end();
                 return res.status(500).send('Erro ao cadastrar o usuário.');
             }
-
-            // console.log(results); // Log de sucesso
             connection.end();
             res.send('Cadastro realizado com sucesso!');
         });
